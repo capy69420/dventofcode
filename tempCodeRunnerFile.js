@@ -1,1 +1,1 @@
-sort((a,b)=>{ Number(a) > Number(b) })
+sort((a,b)=>b-a)
