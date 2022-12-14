@@ -36,6 +36,7 @@ def is_in_order(left, right):
         else:
             return res
 
+packets = []
 def get_order_sum(file):
     order_sum = 0
     with open(file) as f:
@@ -45,9 +46,45 @@ def get_order_sum(file):
             pair = data[i].split('\n')
             left = ast.literal_eval(pair[0])
             right = ast.literal_eval(pair[1])
+            packets.append(left)
+            packets.append(right)
             res = is_in_order(left, right)
             if res == 1:
                  order_sum += i+1      
     return order_sum
 
+div1, div2 = [[2]], [[6]]
+def bubble_sort(packets):
+    swapped = True
+    while swapped:
+        swapped = False
+        for i in range(1, len(packets)):
+            # not in order
+            sorted = is_in_order(packets[i-1], packets[i])
+            if sorted == -1:
+                # swap them
+                temp = packets[i]
+                packets[i] = packets[i-1]
+                packets[i-1] = temp
+                swapped = True
+    return packets
+def decoder_key(packets, div):
+    index = 1
+    packets.insert(0, div)
+    for i in range(1, len(packets)):
+        # sorted
+        if is_in_order(div,packets[i]) == 1:
+            return index
+        # not sorted swap it
+        else:
+            temp = packets[i-1]
+            packets[i-1] = packets[i]
+            packets[i] = temp
+            index += 1
+    return index
+
 print('order sum:',get_order_sum('./input13.txt'))
+bubble_sort(packets)
+key1 = decoder_key(packets,div1)
+key2 = decoder_key(packets,div2)
+print('decoder key:',key1 * key2)
