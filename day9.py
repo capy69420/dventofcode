@@ -50,7 +50,7 @@ def simulate_rope_movement(motions):
   return len(visited_positions)
 
 # Read the input from the file "input9.txt"
-with open("input9.txt") as f:
+with open("./input9.txt") as f:
   # Parse the input into a list of motions
   motions = [(line.split()[0], int(line.split()[1])) for line in f]
 
