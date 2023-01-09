@@ -1,5 +1,20 @@
 from collections import deque
 
+class Node:
+    def __init__(self, val, parent=None):
+        self.val = val
+        self.children = []
+        self.parent = parent
+    
+    def add_child(self, child_node):
+        self.children.append(child_node)
+    def print_tree(self): 
+        print(self.val) 
+    
+        if self.children: 
+            for child in self.children: 
+                child.print_tree()
+
 def find_player(valley):
     for i in range(len(valley)):
         for j in range(len(valley[0])):
@@ -45,6 +60,7 @@ def update_blizzards(valley, blizzards):
     return new_blizzards
 
 def update_player(valley, player, new_position):
+    global root
     copy_valley = []
     for i in range(len(valley)):
         copy_valley.append(valley[i])
@@ -55,6 +71,11 @@ def update_player(valley, player, new_position):
     # change new position to 'E'
     copy_valley[i] = valley[i][:j] + 'E' + valley[i][j+1:]
     print_valley(copy_valley)
+
+    # Create a new node with the updated position and valley
+    new_node = Node(new_position, copy_valley)
+    # Update the root to be the current node
+    root = new_node
     return copy_valley
 
 def print_valley(valley):
@@ -136,4 +157,8 @@ with open('input24.txt', 'r') as f:
 start = (0, 1)
 end = (5, 7)
 max_wait = 15
+# Initialize the root node with the starting position and valley
+root = Node(start, valley)
 print('Minutes:', blizzard_basin(valley, start, end, max_wait))
+print('root')
+root.print_tree()
